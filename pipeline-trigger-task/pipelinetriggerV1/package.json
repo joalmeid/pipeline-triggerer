@@ -1,0 +1,33 @@
+{
+  "name": "ado-pipeline-triggerer",
+  "version": "0.0.1",
+  "description": "Azure DevOps Pipeline Triggerer Extension",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joalmeid/pipeline-triggerer"
+  },
+  "keywords": [
+    "Azure",
+    "DevOps",
+    "pipeline",
+    "trigger"
+  ],
+  "author": "joalmeid@microsoft.com",
+  "license": "MIT",
+  "dependencies": {
+    "azure-devops-node-api": "^7.0.0",
+    "azure-pipelines-task-lib": "^2.7.7"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^11.10.4",
+    "@types/q": "^1.5.1",
+    "typescript": "^3.4.3",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
+}

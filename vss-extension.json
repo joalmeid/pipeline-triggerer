@@ -1,0 +1,170 @@
+{
+    "manifestVersion": 1,
+    "id": "ado-pipeline-triggerer",
+    "name": "Azure DevOps Pipeline Triggerer Extension",
+    "version": "1.0.30",
+    "scopes": [],
+    "description": "Azure DevOps Pipeline Triggerer Extension",
+    "publisher": "joalmeid",
+    "galleryFlags": [
+        "Preview"
+    ],
+    "files": [
+        {
+            "path": "pipeline-trigger-task"
+        },
+        {
+            "path": "static/images",
+            "addressable": true
+        }
+    ],
+    "icons": {
+        "default": "static/images/azure-pipelines-logo-128.png"
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "demands": [
+        "api-version/3.0"
+    ],
+    "tags": [
+        "Pipelines",
+        "ci",
+        "cd",
+        "continuous integration",
+        "continuous deployment"
+    ],
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "screenshots": [
+        {
+            "path": "static/images/pipeline-triggerer-task-ui.png"
+        },
+        {
+            "path": "static/images/pipeline-triggerer-service-endpoint.png"
+        }
+    ],
+    "content": {
+        "license": {
+            "path": "license.md"
+        },
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "links": {
+        "getstarted": {
+            "uri": "https://github.com/joalmeid/pipeline-triggerer/wiki/Getting-Started"
+        },
+        "support": {
+            "uri": "https://github.com/joalmeid/pipeline-triggerer/wiki"
+        },
+        "issues": {
+            "uri": "https://github.com/joalmeid/pipeline-triggerer/issues"
+        },
+        "repository": {
+            "uri": "https://github.com/joalmeid/pipeline-triggerer"
+        },
+        "learn": {
+            "uri": "https://github.com/joalmeid/pipeline-triggerer/wiki"
+        }
+    },
+    "branding": {
+        "color": "rgb(255, 217, 0)",
+        "theme": "light"
+    },
+    "contributions": [
+        {
+            "id": "pipeline-trigger-task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "type": "ms.vss-distributed-task.task",
+            "properties": {
+                "name": "pipeline-trigger-task"
+            }
+        },
+        {
+            "id": "pipeline-trigger-endpoint-type",
+            "description": "Service Endpoint for a Azure DevOps API connection",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [
+                "ms.vss-endpoint.endpoint-types"
+            ],
+            "properties": {
+                "name": "AzuredevopsAPI",
+                "displayName": "Azure DevOps API",
+                "url": {
+                    "displayName": "i18n:Organization Url",
+                    "value": "https://dev.azure.com/[organization]",
+                    "isVisible": "true"
+                },
+                "dataSources": [
+                    {
+                        "name": "TestConnection",
+                        "endpointUrl": "{{endpoint.url}}/_apis/projects",
+                        "resultSelector": "jsonpath:$[*].Key"
+                    },
+                    {
+                        "name": "projects",
+                        "endpointUrl": "{{endpoint.url}}/_apis/projects",
+                        "resultSelector": "jsonpath:$.value[?(@.state=='wellFormed')]"
+                    },
+                    {
+                        "name": "buildDefinitions",
+                        "endpointUrl": "{{endpoint.url}}/{{project}}/_apis/build/definitions",
+                        "resultSelector": "jsonpath:$.value[?(@.quality=='definition')]"
+                    },
+                    {
+                        "name": "releaseDefinitions",
+                        "endpointUrl": "{{endpoint.releaseUrl}}/{{project}}/_apis/release/definitions",
+                        "resultSelector": "jsonpath:$.value[?(@.isDeleted==false)]"
+                    }
+                ],
+                "inputDescriptors": [
+                    {
+                        "id": "releaseUrl",
+                        "name": "i18n:Release API Url",
+                        "description": "The url of the release API",
+                        "inputMode": "textbox",
+                        "isConfidential": false,
+                        "validation": {
+                            "isRequired": true,
+                            "dataType": "string",
+                            "maxLength": 300
+                        },
+                        "values": {
+                            "inputId": "releaseUrlInput",
+                            "defaultValue": "https://vsrm.dev.azure.com/[organization]"
+                        }
+                    }
+                ],
+                "authenticationSchemes": [
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-token",
+                        "headers": [
+                            {
+                                "name": "Authorization",
+                                "value": "Basic {{ #base64 \"token\" \":\" endpoint.apitoken }}"
+                            }
+                        ],
+                        "inputDescriptors": [
+                            {
+                                "id": "apitoken",
+                                "name": "Personal Access Token",
+                                "description": "Personal access token.",
+                                "inputMode": "passwordbox",
+                                "isConfidential": true,
+                                "validation": {
+                                    "isRequired": true,
+                                    "dataType": "string"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
