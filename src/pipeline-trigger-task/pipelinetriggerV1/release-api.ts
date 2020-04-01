@@ -22,6 +22,7 @@ export class ReleaseApi {
     }
 
     public createRelease(releaseStartMetadata: ReleaseStartMetadata, project: string) {
+      return this.adoReleasedApi.createRelease(releaseStartMetadata, project);
     }
 
     public getArtifactVersions(project: string, releaseDefinitionId: number) {

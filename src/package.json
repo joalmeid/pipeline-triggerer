@@ -9,9 +9,9 @@
   },
   "scripts": {
     "clean": "rimraf ./*.vsix",
-    "prebuild": "cd pipeline-trigger-task\\pipelinetriggerV1 && npm install --save-dev",
+    "prebuild": "cd pipeline-trigger-task/pipelinetriggerV1 && npm install --save-dev",
     "build": "tsc --listEmittedFiles -p . ",
-    "test": "cd pipeline-trigger-task\\pipelinetriggerV1 && mocha tests/_suite.js",
+    "test": "cd pipeline-trigger-task/pipelinetriggerV1 && mocha tests/_suite.js",
     "compile": "npm run clean && npm run build",
     "package": "npm run build && tfx extension create --rev-version --manifest-globs"
   },
