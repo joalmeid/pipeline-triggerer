@@ -1,0 +1,43 @@
+###################################################
+#
+# Azure DevOps Pipeline Triggerer Extension
+# (Azure Pipelines) PR
+#
+###################################################
+
+trigger: none
+
+variables:
+  buildversion: 1.0.35
+  pat: xxx
+
+stages:
+- stage: PRValidation
+  displayName: Pull Request Validation
+  jobs:
+
+  - job: PRBuild
+    displayName: Build
+    pool: 
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        workingDir: 'src'
+        verbose: false
+    - task: Npm@1
+      displayName: 'npm install-task-lib'
+      inputs:
+        command: custom
+        workingDir: 'src'
+        verbose: false
+        customCommand: 'run-script install-task-lib'
+      enabled: false
+    - task: Npm@1
+      displayName: 'npm build'
+      inputs:
+        command: custom
+        workingDir: 'src'
+        verbose: false
+        customCommand: 'run-script build'

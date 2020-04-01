@@ -1,0 +1,139 @@
+###################################################
+#
+# Azure DevOps Pipeline Triggerer Extension
+# (Azure Pipelines) CI
+#
+###################################################
+
+trigger:
+  batch: 'true'
+  branches:
+    include:
+    - master
+  paths:
+      include:
+      - /src/*
+
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+variables:
+  artifactName: pipeline-triggerer-ext
+  extensionId: pipeline-triggerer-extension
+  pat: xxx
+
+stages:
+- stage: Build_Ext
+  displayName: Build Extension
+  jobs:
+  - job: BuildJob
+    displayName: Build App
+    pool: 
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: GitVersion@5
+      displayName: GitVersion
+      inputs:
+        preferBundledVersion: false
+        configFilePath: $(Build.SourcesDirectory)/GitVersion.yml
+        runtime: 'core'
+        updateAssemblyInfo: true
+        additionalArguments: '/nocache /ensureassemblyinfo'
+    - bash: |
+        #!/bin/bash
+        echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)"
+      displayName: 'Set CI Pipeline Name'
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        workingDir: 'src'
+        verbose: false
+    - task: Npm@1
+      displayName: 'npm install-task-lib'
+      inputs:
+        command: custom
+        workingDir: 'src'
+        verbose: false
+        customCommand: 'run-script install-task-lib'
+      enabled: false
+    - task: Npm@1
+      displayName: 'npm build'
+      inputs:
+        command: custom
+        workingDir: 'src'
+        verbose: false
+        customCommand: 'run-script build'
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: 'src'
+        includeRootFolder: false
+        archiveFile: '$(Build.ArtifactStagingDirectory)-$(Build.BuildId).zip'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish artifacts: drop'
+    - task: maikvandergaag.maikvandergaag-versioncounter.versioncounter.versioncounter@1
+      displayName: 'Version number counter'
+      inputs:
+        VersionVariable: $(GitVersion.SemVer)
+        DevOpsPat: '$(pat)'
+      enabled: false
+    - task: ms-devlabs.vsts-developer-tools-build-tasks.package-extension-build-task.PackageVSTSExtension@1
+      displayName: 'Package Extension: src'
+      inputs:
+        rootFolder: 'src'
+        outputVariable: ExtensionOutputPath
+        publisherId: joalmeid
+        extensionTag: alpha
+        extensionVersion: $(GitVersion.SemVer)
+        updateTasksVersion: true
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish artifacts: extension '
+      inputs:
+        PathtoPublish: '$(ExtensionOutputPath)'
+        ArtifactName: $(artifactName)
+      condition: succeededOrFailed()
+
+- stage: Publish_Ext
+  displayName: DEV
+  dependsOn: Build_Ext
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: PublishExt
+    displayName: Publish Extension
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - download: current
+      artifact: $(artifactName)
+      patterns: '**/*'
+
+    - task: ms-devlabs.vsts-developer-tools-build-tasks.tfx-installer-build-task.TfxInstaller@1
+      displayName: 'Use Node CLI for Azure DevOps: v0.7.3'
+      inputs:
+        version: v0.7.3
+      enabled: false
+    - task: ms-devlabs.vsts-developer-tools-build-tasks.extension-version-build-task.ExtensionVersion@1
+      displayName: 'Query Extension Version: joalmeid.pipeline-triggerer-extension'
+      inputs:
+        connectedServiceName: 'VS Marketplace'
+        publisherId: joalmeid
+        extensionId: $(extensionId)
+    - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
+      displayName: 'Publish Extension'
+      inputs:
+        connectedServiceName: 'VS Marketplace'
+        fileType: vsix
+        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/joalmeid.$(extensionId)-*.vsix'
+        publisherId: joalmeid
+        extensionName: 'Azure DevOps Pipeline Triggerer Extension'
+        updateTasksVersion: false
+        extensionVisibility: private
+        extensionPricing: free
+        outputVariable: ExtensionOutputPath
+    - task: ms-devlabs.vsts-developer-tools-build-tasks.share-extension-build-task.ShareExtension@1
+      displayName: 'Share Extension'
+      inputs:
+        connectedServiceName: 'VS Marketplace'
+        method: vsix
+        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/joalmeid.$(extensionId)-*.vsix'
+        accounts: joalmeid
