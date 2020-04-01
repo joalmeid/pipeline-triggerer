@@ -109,7 +109,7 @@ stages:
 
 - stage: Publish_Ext_Prod
   displayName: PROD
-  dependsOn: Build_Ext
+  dependsOn: Publish_Ext_Dev
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - job: PublishExt
