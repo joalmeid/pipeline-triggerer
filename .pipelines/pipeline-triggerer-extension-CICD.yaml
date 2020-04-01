@@ -86,11 +86,9 @@ stages:
         extensionTag: alpha
         extensionVersion: $(GitVersion.SemVer)
         updateTasksVersion: true
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish artifacts: extension '
-      inputs:
-        PathtoPublish: '$(ExtensionOutputPath)'
-        ArtifactName: $(artifactName)
+    - upload: $(ExtensionOutputPath)
+      displayName: 'Publish artifacts: extension'
+      artifact: $(artifactName)
       condition: succeededOrFailed()
 
 - stage: Publish_Ext
@@ -106,7 +104,7 @@ stages:
     steps:
     - download: current
       artifact: $(artifactName)
-      patterns: '**/*'
+      patterns: '**/*.vsix'
 
     - task: ms-devlabs.vsts-developer-tools-build-tasks.tfx-installer-build-task.TfxInstaller@1
       displayName: 'Use Node CLI for Azure DevOps: v0.7.3'
