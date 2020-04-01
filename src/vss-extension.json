@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "ado-pipeline-triggerer",
     "name": "Azure DevOps Pipeline Triggerer Extension",
-    "version": "1.0.30",
+    "version": "0.1.0",
     "scopes": [],
     "description": "Azure DevOps Pipeline Triggerer Extension",
     "publisher": "joalmeid",
@@ -19,7 +19,7 @@
         }
     ],
     "icons": {
-        "default": "static/images/azure-pipelines-logo-128.png"
+        "default": "static/images/azdo-pipeline-trigger-logo-128.png"
     },
     "targets": [
         {

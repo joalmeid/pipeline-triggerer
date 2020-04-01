@@ -19,6 +19,7 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 variables:
   artifactName: pipeline-triggerer-ext
   extensionId: pipeline-triggerer-extension
+  vsMarketplaceServiceConnection: 'vs-marketplace'
   pat: xxx
 
 stages:
@@ -115,13 +116,13 @@ stages:
     - task: ms-devlabs.vsts-developer-tools-build-tasks.extension-version-build-task.ExtensionVersion@1
       displayName: 'Query Extension Version: joalmeid.pipeline-triggerer-extension'
       inputs:
-        connectedServiceName: 'VS Marketplace'
+        connectedServiceName: $(vsMarketplaceServiceConnection)
         publisherId: joalmeid
         extensionId: $(extensionId)
     - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
       displayName: 'Publish Extension'
       inputs:
-        connectedServiceName: 'VS Marketplace'
+        connectedServiceName: $(vsMarketplaceServiceConnection)
         fileType: vsix
         vsixFile: '$(Pipeline.Workspace)/$(artifactName)/joalmeid.$(extensionId)-*.vsix'
         publisherId: joalmeid
@@ -133,7 +134,7 @@ stages:
     - task: ms-devlabs.vsts-developer-tools-build-tasks.share-extension-build-task.ShareExtension@1
       displayName: 'Share Extension'
       inputs:
-        connectedServiceName: 'VS Marketplace'
+        connectedServiceName: $(vsMarketplaceServiceConnection)
         method: vsix
         vsixFile: '$(Pipeline.Workspace)/$(artifactName)/joalmeid.$(extensionId)-*.vsix'
         accounts: joalmeid
