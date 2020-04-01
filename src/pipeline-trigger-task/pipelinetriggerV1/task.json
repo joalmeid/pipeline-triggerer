@@ -1,6 +1,6 @@
 {
     "id": "145244d9-ff29-4399-95de-f84bcff0f75b",
-    "name": "ado-pipeline-triggerer",
+    "name": "pipeline-triggerer-task",
     "friendlyName": "ADO pipeline triggerer task",
     "description": "Cross platform Azure DevOps Pipeline",
     "helpMarkDown": "",

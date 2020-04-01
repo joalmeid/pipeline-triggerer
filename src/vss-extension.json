@@ -1,6 +1,6 @@
 {
     "manifestVersion": 1,
-    "id": "ado-pipeline-triggerer",
+    "id": "pipeline-triggerer-extension",
     "name": "Azure DevOps Pipeline Triggerer Extension",
     "version": "0.1.0",
     "scopes": [],

@@ -1,5 +1,5 @@
 {
-  "name": "ado-pipeline-triggerer",
+  "name": "pipeline-triggerer-extension",
   "private": true,
   "version": "0.0.1",
   "description": "Azure DevOps Pipeline Triggerer Extension",
