@@ -88,7 +88,7 @@ stages:
       displayName: 'Publish artifacts: extension'
       artifact: $(artifactName)
 
-- stage: Publish_Ext
+- stage: Publish_Ext_Dev
   displayName: DEV
   dependsOn: Build_Ext
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -99,38 +99,29 @@ stages:
       vmImage: 'ubuntu-latest'
 
     steps:
-    - download: current
-      artifact: $(artifactName)
-      patterns: '**/*'
-
-    - task: ms-devlabs.vsts-developer-tools-build-tasks.tfx-installer-build-task.TfxInstaller@1
-      displayName: 'Use Node CLI for Azure DevOps: v0.7.3'
-      inputs:
-        version: v0.7.3
-      enabled: false
-
-    - task: ms-devlabs.vsts-developer-tools-build-tasks.extension-version-build-task.ExtensionVersion@1
-      displayName: 'Query Extension Version'
-      inputs:
-        connectedServiceName: '$(vsMarketplaceServiceConnetion)'
+    - template: template-release.yaml
+      parameters:
         publisherId: $(publisherId)
-        extensionId: $(projName)
-    - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
-      displayName: 'Publish Extension'
-      inputs:
-        connectedServiceName: '$(vsMarketplaceServiceConnetion)'
-        fileType: vsix
-        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/$(publisherId).$(projName)-*.vsix'
+        projName: $(projName)
+        marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
+        artifactName: $(artifactName)
+        # extensionVisibility: private
+
+- stage: Publish_Ext_Prod
+  displayName: PROD
+  dependsOn: Build_Ext
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: PublishExt
+    displayName: Publish Extension
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - template: template-release.yaml
+      parameters:
         publisherId: $(publisherId)
-        extensionName: 'Azure DevOps Pipeline Triggerer Extension'
-        updateTasksVersion: false
-        extensionVisibility: private
-        extensionPricing: free
-        outputVariable: ExtensionOutputPath
-    - task: ms-devlabs.vsts-developer-tools-build-tasks.share-extension-build-task.ShareExtension@1
-      displayName: 'Share Extension'
-      inputs:
-        connectedServiceName: '$(vsMarketplaceServiceConnetion)'
-        method: vsix
-        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/$(publisherId).$(projName)-*.vsix'
-        accounts: $(publisherId)
+        projName: $(projName)
+        marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
+        artifactName: $(artifactName)
+        extensionVisibility: public

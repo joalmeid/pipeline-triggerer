@@ -1,0 +1,45 @@
+parameters:
+  publisherId: # Published Id @ https://marketplace.visualstudio.com/manage
+  projName: # Required: Extension Name
+  marketplaceServiceConnection: # Required: Service connection for Visual Studio Marketplace
+  artifactName: 'extension-artifact' # Artifact name
+  extensionVisibility: private
+
+steps:
+  - download: current
+    artifact: ${{parameters.artifactName}}
+    patterns: '**/*'
+
+  - task: ms-devlabs.vsts-developer-tools-build-tasks.tfx-installer-build-task.TfxInstaller@1
+    displayName: 'Use Node CLI for Azure DevOps: v0.7.3'
+    inputs:
+      version: v0.7.3
+    enabled: false
+
+  - task: ms-devlabs.vsts-developer-tools-build-tasks.extension-version-build-task.ExtensionVersion@1
+    displayName: 'Query Extension Version'
+    inputs:
+      connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+      publisherId: ${{parameters.publisherId}}
+      extensionId: ${{parameters.projName}}
+
+  - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
+    displayName: 'Publish Extension'
+    inputs:
+      connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+      fileType: vsix
+      vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
+      publisherId: ${{parameters.publisherId}}
+      extensionName: 'Azure DevOps Pipeline Triggerer Extension'
+      updateTasksVersion: false
+      extensionVisibility: ${{parameters.extensionVisibility}}
+      extensionPricing: free
+      outputVariable: ExtensionOutputPath
+      
+  - task: ms-devlabs.vsts-developer-tools-build-tasks.share-extension-build-task.ShareExtension@1
+    displayName: 'Share Extension'
+    inputs:
+      connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+      method: vsix
+      vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
+      accounts: ${{parameters.publisherId}}
