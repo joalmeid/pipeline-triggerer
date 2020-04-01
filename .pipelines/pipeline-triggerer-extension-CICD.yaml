@@ -6,7 +6,6 @@
 ###################################################
 
 trigger:
-  batch: 'true'
   branches:
     include:
     - master
@@ -17,10 +16,11 @@ trigger:
 name: $(Date:yyyyMMdd)$(Rev:.r)
 
 variables:
-  artifactName: pipeline-triggerer-ext
-  extensionId: pipeline-triggerer-extension
-  vsMarketplaceServiceConnection: 'vs-marketplace'
-  pat: xxx
+  projName: pipeline-triggerer-extension
+  artifactName: $(projName)-ext
+  publisherId: joalmeid
+  vsMarketplaceServiceConnetion: vs-marketplace
+  # pat: #required
 
 stages:
 - stage: Build_Ext
@@ -68,9 +68,7 @@ stages:
       inputs:
         rootFolderOrFile: 'src'
         includeRootFolder: false
-        archiveFile: '$(Build.ArtifactStagingDirectory)-$(Build.BuildId).zip'
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish artifacts: drop'
+        archiveFile: '$(Build.ArtifactStagingDirectory)\$(projName)-$(GitVersion.SemVer).zip'
     - task: maikvandergaag.maikvandergaag-versioncounter.versioncounter.versioncounter@1
       displayName: 'Version number counter'
       inputs:
@@ -82,14 +80,13 @@ stages:
       inputs:
         rootFolder: 'src'
         outputVariable: ExtensionOutputPath
-        publisherId: joalmeid
+        publisherId: $(publisherId)
         extensionTag: alpha
         extensionVersion: $(GitVersion.SemVer)
         updateTasksVersion: true
-    - upload: $(ExtensionOutputPath)
+    - publish: '$(ExtensionOutputPath)'
       displayName: 'Publish artifacts: extension'
       artifact: $(artifactName)
-      condition: succeededOrFailed()
 
 - stage: Publish_Ext
   displayName: DEV
@@ -104,26 +101,27 @@ stages:
     steps:
     - download: current
       artifact: $(artifactName)
-      patterns: '**/*.vsix'
+      patterns: '**/*'
 
     - task: ms-devlabs.vsts-developer-tools-build-tasks.tfx-installer-build-task.TfxInstaller@1
       displayName: 'Use Node CLI for Azure DevOps: v0.7.3'
       inputs:
         version: v0.7.3
       enabled: false
+
     - task: ms-devlabs.vsts-developer-tools-build-tasks.extension-version-build-task.ExtensionVersion@1
-      displayName: 'Query Extension Version: joalmeid.pipeline-triggerer-extension'
+      displayName: 'Query Extension Version'
       inputs:
-        connectedServiceName: $(vsMarketplaceServiceConnection)
-        publisherId: joalmeid
-        extensionId: $(extensionId)
+        connectedServiceName: '$(vsMarketplaceServiceConnetion)'
+        publisherId: $(publisherId)
+        extensionId: $(projName)
     - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
       displayName: 'Publish Extension'
       inputs:
-        connectedServiceName: $(vsMarketplaceServiceConnection)
+        connectedServiceName: '$(vsMarketplaceServiceConnetion)'
         fileType: vsix
-        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/joalmeid.$(extensionId)-*.vsix'
-        publisherId: joalmeid
+        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/$(publisherId).$(projName)-*.vsix'
+        publisherId: $(publisherId)
         extensionName: 'Azure DevOps Pipeline Triggerer Extension'
         updateTasksVersion: false
         extensionVisibility: private
@@ -132,7 +130,7 @@ stages:
     - task: ms-devlabs.vsts-developer-tools-build-tasks.share-extension-build-task.ShareExtension@1
       displayName: 'Share Extension'
       inputs:
-        connectedServiceName: $(vsMarketplaceServiceConnection)
+        connectedServiceName: '$(vsMarketplaceServiceConnetion)'
         method: vsix
-        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/joalmeid.$(extensionId)-*.vsix'
-        accounts: joalmeid
+        vsixFile: '$(Pipeline.Workspace)/$(artifactName)/$(publisherId).$(projName)-*.vsix'
+        accounts: $(publisherId)
