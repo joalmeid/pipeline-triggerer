@@ -31,62 +31,12 @@ stages:
     pool: 
       vmImage: 'ubuntu-latest'
     steps:
-    - task: GitVersion@5
-      displayName: GitVersion
-      inputs:
-        preferBundledVersion: false
-        configFilePath: $(Build.SourcesDirectory)/GitVersion.yml
-        runtime: 'core'
-        updateAssemblyInfo: true
-        additionalArguments: '/nocache /ensureassemblyinfo'
-    - bash: |
-        #!/bin/bash
-        echo "##vso[build.updatebuildnumber]$(GitVersion.SemVer)"
-      displayName: 'Set CI Pipeline Name'
-    - task: Npm@1
-      displayName: 'npm install'
-      inputs:
-        workingDir: 'src'
-        verbose: false
-    - task: Npm@1
-      displayName: 'npm install-task-lib'
-      inputs:
-        command: custom
-        workingDir: 'src'
-        verbose: false
-        customCommand: 'run-script install-task-lib'
-      enabled: false
-    - task: Npm@1
-      displayName: 'npm build'
-      inputs:
-        command: custom
-        workingDir: 'src'
-        verbose: false
-        customCommand: 'run-script build'
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
-      inputs:
-        rootFolderOrFile: 'src'
-        includeRootFolder: false
-        archiveFile: '$(Build.ArtifactStagingDirectory)\$(projName)-$(GitVersion.SemVer).zip'
-    - task: maikvandergaag.maikvandergaag-versioncounter.versioncounter.versioncounter@1
-      displayName: 'Version number counter'
-      inputs:
-        VersionVariable: $(GitVersion.SemVer)
-        DevOpsPat: '$(pat)'
-      enabled: false
-    - task: ms-devlabs.vsts-developer-tools-build-tasks.package-extension-build-task.PackageVSTSExtension@1
-      displayName: 'Package Extension: src'
-      inputs:
-        rootFolder: 'src'
-        outputVariable: ExtensionOutputPath
+    - template: template-build.yaml
+      parameters:
         publisherId: $(publisherId)
-        extensionTag: alpha
-        extensionVersion: $(GitVersion.SemVer)
-        updateTasksVersion: true
-    - publish: '$(ExtensionOutputPath)'
-      displayName: 'Publish artifacts: extension'
-      artifact: $(artifactName)
+        projName: $(projName)
+        marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
+        artifactName: $(artifactName)
 
 - stage: Publish_Ext_Dev
   displayName: DEV

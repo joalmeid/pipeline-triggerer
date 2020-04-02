@@ -1,0 +1,92 @@
+###################################################
+#
+# Azure Pipelines YAML template
+# Build & Package an Azure Devops extension
+#
+###################################################
+
+parameters:
+  publisherId: # Published Id @ https://marketplace.visualstudio.com/manage
+  projName: # Required: Extension Name
+  marketplaceServiceConnection: # Required: Service connection for Visual Studio Marketplace
+
+  artifactName: 'extension-artifact' # Artifact name
+  extensionVisibility: private
+
+steps:
+  - task: GitVersion@5
+    displayName: GitVersion
+    inputs:
+      preferBundledVersion: false
+      configFilePath: $(Build.SourcesDirectory)/GitVersion.yml
+      runtime: 'core'
+      updateAssemblyInfo: true
+      additionalArguments: '/nocache /ensureassemblyinfo'
+
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      workingDir: 'src'
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'npm install-task-lib'
+    inputs:
+      command: custom
+      workingDir: 'src'
+      verbose: false
+      customCommand: 'run-script install-task-lib'
+    enabled: false
+
+  - task: Npm@1
+    displayName: 'npm build'
+    inputs:
+      command: custom
+      workingDir: 'src'
+      verbose: false
+      customCommand: 'run-script build'
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive files'
+    inputs:
+      rootFolderOrFile: 'src'
+      includeRootFolder: false
+      archiveFile: '$(Build.ArtifactStagingDirectory)\${{parameters.projName}}-$(GitVersion.SemVer).zip'
+
+  - task: QueryAzureDevOpsExtensionVersion@2
+    displayName: 'Query Extension Version'
+    inputs:
+      connectTo: 'VsTeam'
+      connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+      publisherId: ${{parameters.publisherId}}
+      extensionId: ${{parameters.projName}}
+      versionAction: 'Patch'
+      outputVariable: 'Extension.Version'
+      extensionVersionOverride: 'Extension.VersionOverride'
+      # setBuildNumber: 'true'
+      # arguments: 'asdasd'
+      # cwd: 'asdasd'
+
+
+  # - task: maikvandergaag.maikvandergaag-versioncounter.versioncounter.versioncounter@1
+  #   displayName: 'Version number counter'
+  #   inputs:
+  #     VersionVariable: $(GitVersion.SemVer)
+  #     DevOpsPat: '$(pat)'
+  #   enabled: false
+
+  - task: PackageAzureDevOpsExtension@2
+    displayName: 'Package Extension'
+    inputs:
+      rootFolder: 'src'
+      outputVariable: ExtensionOutputPath
+      publisherId: ${{parameters.publisherId}}
+#        extensionTag: alpha
+      extensionVersion: '$(Extension.Version)'
+      updateTasksVersion: true
+      extensionVisibility: ${{parameters.extensionVisibility}}
+      extensionPricing: 'free'
+
+  - publish: '$(ExtensionOutputPath)'
+    displayName: 'Publish artifacts: extension'
+    artifact: ${{parameters.artifactName}}

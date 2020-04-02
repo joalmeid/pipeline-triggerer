@@ -10,18 +10,25 @@ steps:
     artifact: ${{parameters.artifactName}}
     patterns: '**/*'
 
-  - task: ms-devlabs.vsts-developer-tools-build-tasks.tfx-installer-build-task.TfxInstaller@1
+  - task: TfxInstaller@2
     displayName: 'Use Node CLI for Azure DevOps: v0.7.3'
     inputs:
       version: v0.7.3
     enabled: false
 
-  - task: ms-devlabs.vsts-developer-tools-build-tasks.extension-version-build-task.ExtensionVersion@1
+  - task: QueryAzureDevOpsExtensionVersion@2
     displayName: 'Query Extension Version'
     inputs:
+      connectTo: 'VsTeam'
       connectedServiceName: ${{parameters.marketplaceServiceConnection}}
       publisherId: ${{parameters.publisherId}}
       extensionId: ${{parameters.projName}}
+      versionAction: 'Patch'
+      extensionVersionOverride: 'Extension.VersionOverride'
+      # outputVariable: 'Extension.Version'
+      # setBuildNumber: 'true'
+      # arguments: 'asdasd'
+      # cwd: 'asdasd'
 
   - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
     displayName: 'Publish Extension'
