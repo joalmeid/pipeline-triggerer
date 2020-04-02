@@ -65,12 +65,12 @@ stages:
             displayName: 'Share Extension'
             inputs:
               connectTo: 'VsTeam'
-              connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+              connectedServiceName: $(vsMarketplaceServiceConnetion)
               method: 'id'
-              publisherId: ${{parameters.publisherId}}
-              extensionId: ${{parameters.projName}}
+              publisherId: $(publisherId)
+              extensionId: $(projName)
               extensionTag: -dev
-              accounts: ${{parameters.publisherId}}
+              accounts: $(publisherId)
 
 - stage: Publish_Ext_Prod
   displayName: PROD
