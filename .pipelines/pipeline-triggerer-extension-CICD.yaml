@@ -43,37 +43,43 @@ stages:
   dependsOn: Build_Ext
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - job: PublishExt
+  - deployment: PublishExtDev
     displayName: Publish Extension
     pool:
       vmImage: 'ubuntu-latest'
-
-    steps:
-    - template: template-release.yaml
-      parameters:
-        publisherId: $(publisherId)
-        projName: $(projName)
-        marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
-        artifactName: $(artifactName)
-        extensionName: 'Pipeline Triggerer (dev)'
-        extensionVisibility: private
-        extensionTag: -alpha
+    environment: DEV
+    strategy:
+      runOnce:
+        deploy: 
+          steps:
+          - template: template-release.yaml
+            parameters:
+              publisherId: $(publisherId)
+              projName: $(projName)
+              marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
+              artifactName: $(artifactName)
+              extensionName: 'Pipeline Triggerer (dev)'
+              extensionVisibility: private
+              extensionTag: -dev
 
 - stage: Publish_Ext_Prod
   displayName: PROD
   dependsOn: Publish_Ext_Dev
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - job: PublishExt
+  - deployment: PublishExtDev
     displayName: Publish Extension
     pool:
       vmImage: 'ubuntu-latest'
-
-    steps:
-    - template: template-release.yaml
-      parameters:
-        publisherId: $(publisherId)
-        projName: $(projName)
-        marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
-        artifactName: $(artifactName)
-        extensionVisibility: public
+    environment: PROD
+    strategy:
+      runOnce:
+        deploy: 
+          steps:
+          - template: template-release.yaml
+            parameters:
+              publisherId: $(publisherId)
+              projName: $(projName)
+              marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
+              artifactName: $(artifactName)
+              extensionVisibility: public
