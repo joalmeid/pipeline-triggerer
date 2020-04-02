@@ -72,10 +72,6 @@
             "uri": "https://github.com/joalmeid/pipeline-triggerer/wiki"
         }
     },
-    "branding": {
-        "color": "rgb(255, 217, 0)",
-        "theme": "light"
-    },
     "contributions": [
         {
             "id": "pipeline-trigger-task",
