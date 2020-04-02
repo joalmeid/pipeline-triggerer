@@ -2,25 +2,30 @@
 
 ## Pipeline Triggerer Extension for Azure Pipelines ##
 
+This extension allows you to trigger any existing build or release definition. No matter if its implemented with the Classic Editor or YAML pipelines.
+This is usefull when you need to orchestrate one or several pipelines from your authored pipeline.
+
+![Extension ADO Pipeline Trigger Task](/static/images/ext-pipeline-trigger-task-ui.png)
+
+### Highlights ###
+> This extension is ***cross platform***. You can run it from **Windows**, **Linux** or **macOS** self-hosted agents.
+> This extension allows you to orchestrate pipelines accross different **projects** or **organizations**
 
 The Pipeline Triggerer Extension include the following contributions:
 
-- Pipeline Trigger Task
+1. Pipeline Triggerer Task
 
-![Extension ADO Pipeline Trigger Task](/static/images/ext-pipeline-trigger-task-ui.png)
+![Extension ADO Pipeline Triggerer Task](/static/images/ext-pipeline-trigger-task-ui-classical.png)
+
+2. Azure Devops Service Connection
+
 ![Extension ADO Service EndPoint](/static/images/ext-service-endpoint.png)
 
-### Quick steps to get started ###
-
-To make the Pipeline Trigger Task available, you must:
-- Configure a service end-point in Azure DevOps for accessing the ADO Rest Api;
-- Use the Pipeline Trigger Task in your build/release definitions.
-
-Please refer to the following information:
-- [Getting Started](https://github.com/joalmeid/pipeline-triggerer/wiki)
-
-
-
+Don't know how to get started? Well it's easy as:
+  1. Create your Service Endpoint
+  2. Add the `Pipeline Triggerer Task` to any of your build or release pipelines
+  3. Configure the `Pipeline Triggerer Task`
+  4. Run your pipeline!
 
 ## Release status
 

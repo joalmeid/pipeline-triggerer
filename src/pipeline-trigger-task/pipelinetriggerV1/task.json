@@ -30,9 +30,7 @@
             "type": "connectedService:ADOAPI",
             "label": "Azure DevOps service connection",
             "required": "true",
-            "aliases": [
-                "serviceConnection"
-            ],
+            "aliases": [ "adoServiceConnection" ],
             "defaultValue": "",
             "helpMarkDown": "Select the Azure DevOps Organization service connection that should be used to connect to Azure DevOps"
         },
@@ -42,6 +40,7 @@
             "label": "Project",
             "defaultValue": "",
             "required": true,
+            "aliases": [ "Project" ],
             "helpMarkDown": "Select the name of the team project were the pipeline resides.",
             "properties": {
                 "EditableOptions": "True"
@@ -52,6 +51,7 @@
             "label": "Pipeline type",
             "type": "pickList",
             "required": true,
+            "aliases": [ "PipelineType" ],
             "helpMarkDown": "Select the type of pipeline",
             "defaultValue": "Release",
             "options": {
@@ -65,6 +65,7 @@
             "label": "Build Definition",
             "defaultValue": "",
             "required": true,
+            "aliases": [ "BuildDefinition" ],
             "helpMarkDown": "Select the name of the Build to trigger.",
             "visibleRule": "avPipeline = Build",
             "properties": {
@@ -77,6 +78,7 @@
             "label": "Release Definition",
             "defaultValue": "",
             "required": true,
+            "aliases": [ "ReleaseDefinition" ],
             "helpMarkDown": "Select the name of the Release to trigger.",
             "visibleRule": "avPipeline = Release",
             "properties": {
@@ -88,6 +90,7 @@
             "type": "string",
             "label": "Release description",
             "required": false,
+            "aliases": [ "ReleaseDescription" ],
             "helpMarkDown": "The description of the release",
             "visibleRule": "avPipeline = Release"
         },
@@ -96,6 +99,7 @@
             "type": "string",
             "label": "Branch",
             "required": false,
+            "aliases": [ "Branch" ],
             "helpMarkDown": "The name of the branch to build. When kept empty the default branch of the build will be used.",
             "visibleRule": "avPipeline = Build"
         },
@@ -104,6 +108,7 @@
             "type": "string",
             "label": "Build Number",
             "defaultValue": "",
+            "aliases": [ "BuildNumber" ],
             "required": false,
             "helpMarkDown": "The succeeded build number to release of the primary artifact. When kept empty the latest version is used.",
             "visibleRule": "avPipeline = Release"
@@ -113,6 +118,7 @@
             "type": "boolean",
             "label": "Async",
             "defaultValue": false,
+            "aliases": [ "Async" ],
             "required": true,
             "helpMarkDown": "The async flag defines whether the build task waits till the builds are finished or just queues them.",
             "groupName": "advanced"
@@ -123,6 +129,7 @@
             "label": "Pipeline Id Output Variable",
             "defaultValue": "",
             "required": false,
+            "aliases": [ "PipelineIdOutputVariable" ],
             "helpMarkDown": "Variable name used to write the resulting build/release id's.",
             "groupName": "advanced"
         }
