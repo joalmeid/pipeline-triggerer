@@ -5,6 +5,7 @@ parameters:
   artifactName: 'extension-artifact' # Artifact name
   extensionVisibility: private # private | privatepreview | publicpreview | public
   extensionTag: # Extension Tag to append to the extension ID
+  extensionName: 'Pipeline Triggerer' # Extension Name to override manifests's one
 
 steps:
   - download: current
@@ -39,7 +40,7 @@ steps:
       fileType: vsix
       vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
       publisherId: ${{parameters.publisherId}}
-      extensionName: 'Azure DevOps Pipeline Triggerer Extension'
+      extensionName: ${{parameters.extensionName}}
       updateTasksVersionType: 'patch'
       extensionPricing: free
       outputVariable: ExtensionOutputPath
@@ -63,7 +64,7 @@ steps:
   #     connectedServiceName: ${{parameters.marketplaceServiceConnection}}
   #     fileType: vsix
   #     vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
-  #     extensionName: 'Azure DevOps Pipeline Triggerer Extension'
+  #     extensionName: 'Pipeline Triggerer Extension'
   #     updateTasksVersion: false
   #     extensionVisibility: ${{parameters.extensionVisibility}}
   #     extensionPricing: free

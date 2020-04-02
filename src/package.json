@@ -2,7 +2,7 @@
   "name": "pipeline-triggerer-extension",
   "private": true,
   "version": "0.0.1",
-  "description": "Azure DevOps Pipeline Triggerer Extension",
+  "description": "Pipeline Triggerer Extension for Azure Pipelines",
   "main": "index.js",
   "directories": {
     "doc": "docs"

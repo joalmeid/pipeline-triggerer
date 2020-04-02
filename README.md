@@ -1,9 +1,9 @@
 [![Build Status](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_apis/build/status/pipeline-triggerer-extension-CICD?branchName=master&stageName=PROD)](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_build/latest?definitionId=180&branchName=master) [![Build Status](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_apis/build/status/pipeline-triggerer-extension-CICD?branchName=master&stageName=DEV)](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_build/latest?definitionId=180&branchName=master)
 
-## Azure DevOps Pipeline Triggerer Extension ##
+## Pipeline Triggerer Extension for Azure Pipelines ##
 
 
-The Azure DevOps Pipeline Triggerer Extension include the following contributions:
+The Pipeline Triggerer Extension include the following contributions:
 
 - Pipeline Trigger Task
 

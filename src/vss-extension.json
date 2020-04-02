@@ -1,10 +1,10 @@
 {
     "manifestVersion": 1,
     "id": "pipeline-triggerer-extension",
-    "name": "Azure DevOps Pipeline Triggerer Extension",
-    "version": "0.1.1",
+    "name": "Pipeline Triggerer Extension",
+    "version": "0.1.0",
     "scopes": [],
-    "description": "Azure DevOps Pipeline Triggerer Extension",
+    "description": "Pipeline Triggerer Extension for Azure Pipelines",
     "publisher": "joalmeid",
     "galleryFlags": [
         "Preview"

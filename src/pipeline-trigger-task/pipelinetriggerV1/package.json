@@ -1,7 +1,7 @@
 {
-  "name": "pipeline-triggerer-task",
+  "name": "PipelineTriggerer",
   "version": "0.0.1",
-  "description": "Azure DevOps Pipeline Triggerer Extension",
+  "description": "Pipeline Triggerer Task",
   "main": "index.js",
   "scripts": {
     "test": "mocha"

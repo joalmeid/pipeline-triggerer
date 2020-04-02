@@ -1,6 +1,6 @@
 ###################################################
 #
-# Azure DevOps Pipeline Triggerer Extension
+# Pipeline Triggerer Extension
 # (Azure Pipelines) CI
 #
 ###################################################
@@ -55,8 +55,9 @@ stages:
         projName: $(projName)
         marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
         artifactName: $(artifactName)
+        extensionName: 'Pipeline Triggerer (dev)'
         extensionVisibility: private
-        extensionTag: alpha
+        extensionTag: -alpha
 
 - stage: Publish_Ext_Prod
   displayName: PROD

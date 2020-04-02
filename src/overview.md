@@ -1,6 +1,6 @@
-## Azure DevOps Pipeline Triggerer Extension ##
+## Pipeline Triggerer Extension ##
 
-The Azure DevOps Pipeline Triggerer Extension include the following contributions:
+The Pipeline Triggerer Extension include the following contributions:
 
 - Pipeline Trigger Task
 
