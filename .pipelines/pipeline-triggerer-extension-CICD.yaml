@@ -27,7 +27,7 @@ stages:
   displayName: Build Extension
   jobs:
   - job: BuildJob
-    displayName: Build App
+    displayName: Build Extension
     pool: 
       vmImage: 'ubuntu-latest'
     steps:
@@ -55,7 +55,8 @@ stages:
         projName: $(projName)
         marketplaceServiceConnection: $(vsMarketplaceServiceConnetion)
         artifactName: $(artifactName)
-        # extensionVisibility: private
+        extensionVisibility: private
+        extensionTag: alpha
 
 - stage: Publish_Ext_Prod
   displayName: PROD

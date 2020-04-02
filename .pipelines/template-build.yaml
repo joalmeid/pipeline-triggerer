@@ -9,19 +9,11 @@ parameters:
   publisherId: # Published Id @ https://marketplace.visualstudio.com/manage
   projName: # Required: Extension Name
   marketplaceServiceConnection: # Required: Service connection for Visual Studio Marketplace
-
   artifactName: 'extension-artifact' # Artifact name
-  extensionVisibility: private
+  extensionVisibility: private # private | privatepreview | publicpreview | public
+  extensionTag: # Extension Tag to append to the extension ID
 
 steps:
-  - task: GitVersion@5
-    displayName: GitVersion
-    inputs:
-      preferBundledVersion: false
-      configFilePath: $(Build.SourcesDirectory)/GitVersion.yml
-      runtime: 'core'
-      updateAssemblyInfo: true
-      additionalArguments: '/nocache /ensureassemblyinfo'
 
   - task: Npm@1
     displayName: 'npm install'
@@ -35,7 +27,7 @@ steps:
       command: custom
       workingDir: 'src'
       verbose: false
-      customCommand: 'run-script install-task-lib'
+      customCommand: 'run install-task-lib'
     enabled: false
 
   - task: Npm@1
@@ -44,48 +36,35 @@ steps:
       command: custom
       workingDir: 'src'
       verbose: false
-      customCommand: 'run-script build'
+      customCommand: 'run build'
 
-  - task: ArchiveFiles@2
-    displayName: 'Archive files'
+  - task: TfxInstaller@2
+    displayName: 'Use Node CLI for Azure DevOps: v0.7.x'
     inputs:
-      rootFolderOrFile: 'src'
-      includeRootFolder: false
-      archiveFile: '$(Build.ArtifactStagingDirectory)\${{parameters.projName}}-$(GitVersion.SemVer).zip'
+      version: v0.7.x
 
-  - task: QueryAzureDevOpsExtensionVersion@2
-    displayName: 'Query Extension Version'
-    inputs:
-      connectTo: 'VsTeam'
-      connectedServiceName: ${{parameters.marketplaceServiceConnection}}
-      publisherId: ${{parameters.publisherId}}
-      extensionId: ${{parameters.projName}}
-      versionAction: 'Patch'
-      outputVariable: 'Extension.Version'
-      extensionVersionOverride: 'Extension.VersionOverride'
-      # setBuildNumber: 'true'
-      # arguments: 'asdasd'
-      # cwd: 'asdasd'
-
-
-  # - task: maikvandergaag.maikvandergaag-versioncounter.versioncounter.versioncounter@1
-  #   displayName: 'Version number counter'
+  # - task: QueryAzureDevOpsExtensionVersion@2
+  #   displayName: 'Query Extension Version'
   #   inputs:
-  #     VersionVariable: $(GitVersion.SemVer)
-  #     DevOpsPat: '$(pat)'
-  #   enabled: false
+  #     connectTo: 'VsTeam'
+  #     connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+  #     publisherId: ${{parameters.publisherId}}
+  #     extensionId: ${{parameters.projName}}
+  #     versionAction: 'Patch'
+  #     outputVariable: 'ExtensionVersion'
+  #     setBuildNumber: 'true'
 
   - task: PackageAzureDevOpsExtension@2
     displayName: 'Package Extension'
     inputs:
       rootFolder: 'src'
-      outputVariable: ExtensionOutputPath
       publisherId: ${{parameters.publisherId}}
-#        extensionTag: alpha
-      extensionVersion: '$(Extension.Version)'
+      # extensionTag: $(extensionTag)
+      # extensionVersion: '$(ExtensionVersion)'
       updateTasksVersion: true
       extensionVisibility: ${{parameters.extensionVisibility}}
       extensionPricing: 'free'
+      outputVariable: ExtensionOutputPath
 
   - publish: '$(ExtensionOutputPath)'
     displayName: 'Publish artifacts: extension'

@@ -20,24 +20,19 @@ stages:
     displayName: Build
     pool: 
       vmImage: 'ubuntu-latest'
+
     steps:
+
     - task: Npm@1
       displayName: 'npm install'
       inputs:
         workingDir: 'src'
         verbose: false
-    - task: Npm@1
-      displayName: 'npm install-task-lib'
-      inputs:
-        command: custom
-        workingDir: 'src'
-        verbose: false
-        customCommand: 'run-script install-task-lib'
-      enabled: false
+
     - task: Npm@1
       displayName: 'npm build'
       inputs:
         command: custom
         workingDir: 'src'
         verbose: false
-        customCommand: 'run-script build'
+        customCommand: 'run build'

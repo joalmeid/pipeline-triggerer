@@ -3,7 +3,8 @@ parameters:
   projName: # Required: Extension Name
   marketplaceServiceConnection: # Required: Service connection for Visual Studio Marketplace
   artifactName: 'extension-artifact' # Artifact name
-  extensionVisibility: private
+  extensionVisibility: private # private | privatepreview | publicpreview | public
+  extensionTag: # Extension Tag to append to the extension ID
 
 steps:
   - download: current
@@ -11,9 +12,9 @@ steps:
     patterns: '**/*'
 
   - task: TfxInstaller@2
-    displayName: 'Use Node CLI for Azure DevOps: v0.7.3'
+    displayName: 'Use Node CLI for Azure DevOps: v0.7.x'
     inputs:
-      version: v0.7.3
+      version: v0.7.x
     enabled: false
 
   - task: QueryAzureDevOpsExtensionVersion@2
@@ -24,29 +25,68 @@ steps:
       publisherId: ${{parameters.publisherId}}
       extensionId: ${{parameters.projName}}
       versionAction: 'Patch'
-      extensionVersionOverride: 'Extension.VersionOverride'
-      # outputVariable: 'Extension.Version'
+      #extensionVersionOverride: 'Extension.VersionOverride'
+      outputVariable: 'ExtensionVersion'
       # setBuildNumber: 'true'
       # arguments: 'asdasd'
       # cwd: 'asdasd'
 
-  - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
+  - task: PublishAzureDevOpsExtension@2
     displayName: 'Publish Extension'
     inputs:
-      connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+      connectTo: 'VsTeam'
+      connectedServiceName: 'vs-marketplace'
       fileType: vsix
       vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
       publisherId: ${{parameters.publisherId}}
       extensionName: 'Azure DevOps Pipeline Triggerer Extension'
-      updateTasksVersion: false
-      extensionVisibility: ${{parameters.extensionVisibility}}
+      updateTasksVersionType: 'patch'
       extensionPricing: free
       outputVariable: ExtensionOutputPath
-      
-  - task: ms-devlabs.vsts-developer-tools-build-tasks.share-extension-build-task.ShareExtension@1
-    displayName: 'Share Extension'
-    inputs:
-      connectedServiceName: ${{parameters.marketplaceServiceConnection}}
-      method: vsix
-      vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
-      accounts: ${{parameters.publisherId}}
+      shareWith: ${{parameters.publisherId}}
+      extensionVisibility: ${{parameters.extensionVisibility}}
+      extensionTag: ${{parameters.extensionTag}}
+      extensionVersion: $(ExtensionVersion)
+
+      # extensionId: 'asdasdasd'
+      # extensionName: 'asdas'
+      # extensionVersion: 'asdasdasd'
+      # extensionVisibility: 'privatepreview'
+      # bypassLocalValidation: true
+      # noWaitValidation: true
+      # arguments: 'adasda'
+      # cwd: 'sdasdasd'
+
+  # - task: ms-devlabs.vsts-developer-tools-build-tasks.publish-extension-build-task.PublishExtension@1
+  #   displayName: 'Publish Extension'
+  #   inputs:
+  #     connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+  #     fileType: vsix
+  #     vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
+  #     extensionName: 'Azure DevOps Pipeline Triggerer Extension'
+  #     updateTasksVersion: false
+  #     extensionVisibility: ${{parameters.extensionVisibility}}
+  #     extensionPricing: free
+  #     outputVariable: ExtensionOutputPath
+
+  # - task: ShareAzureDevOpsExtension@2
+  #   displayName: 'Share Extension'
+  #   inputs:
+  #     connectTo: 'VsTeam'
+  #     connectedServiceName: 'vs-marketplace'
+  #     method: vsix
+  #     vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
+  #     accounts: ${{parameters.publisherId}}
+  #     # publisherId: 'asd'
+  #     # extensionId: 'asdas'
+  #     # extensionTag: 'asd'
+  #     # arguments: 'asd'
+  #     # cwd: 'asd'
+
+
+  # - task: ms-devlabs.vsts-developer-tools-build-tasks.share-extension-build-task.ShareExtension@1
+  #   inputs:
+  #     connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+  #     method: vsix
+  #     vsixFile: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
+  #     accounts: ${{parameters.publisherId}}
