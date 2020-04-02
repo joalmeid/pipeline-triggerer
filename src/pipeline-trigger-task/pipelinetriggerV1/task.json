@@ -27,7 +27,7 @@
     "inputs": [
         {
             "name": "avConnectedServiceName",
-            "type": "connectedService:AzuredevopsAPI",
+            "type": "connectedService:ADOAPI",
             "label": "Azure DevOps service connection",
             "required": "true",
             "aliases": [

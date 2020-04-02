@@ -93,7 +93,7 @@
                 "ms.vss-endpoint.endpoint-types"
             ],
             "properties": {
-                "name": "AzuredevopsAPI",
+                "name": "ADOAPI",
                 "displayName": "Azure DevOps API",
                 "url": {
                     "displayName": "i18n:Organization Url",
