@@ -61,6 +61,16 @@ stages:
               extensionName: 'Pipeline Triggerer (dev)'
               extensionVisibility: private
               extensionTag: -dev
+          - task: ShareAzureDevOpsExtension@2
+            displayName: 'Share Extension'
+            inputs:
+              connectTo: 'VsTeam'
+              connectedServiceName: ${{parameters.marketplaceServiceConnection}}
+              method: 'id'
+              publisherId: ${{parameters.publisherId}}
+              extensionId: ${{parameters.projName}}
+              extensionTag: -dev
+              accounts: ${{parameters.publisherId}}
 
 - stage: Publish_Ext_Prod
   displayName: PROD

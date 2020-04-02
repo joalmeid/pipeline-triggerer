@@ -10,8 +10,6 @@ parameters:
   projName: # Required: Extension Name
   marketplaceServiceConnection: # Required: Service connection for Visual Studio Marketplace
   artifactName: 'extension-artifact' # Artifact name
-  extensionVisibility: private # private | privatepreview | publicpreview | public
-  extensionTag: # Extension Tag to append to the extension ID
 
 steps:
 
@@ -43,26 +41,12 @@ steps:
     inputs:
       version: v0.7.x
 
-  # - task: QueryAzureDevOpsExtensionVersion@2
-  #   displayName: 'Query Extension Version'
-  #   inputs:
-  #     connectTo: 'VsTeam'
-  #     connectedServiceName: ${{parameters.marketplaceServiceConnection}}
-  #     publisherId: ${{parameters.publisherId}}
-  #     extensionId: ${{parameters.projName}}
-  #     versionAction: 'Patch'
-  #     outputVariable: 'ExtensionVersion'
-  #     setBuildNumber: 'true'
-
   - task: PackageAzureDevOpsExtension@2
     displayName: 'Package Extension'
     inputs:
       rootFolder: 'src'
       publisherId: ${{parameters.publisherId}}
-      # extensionTag: $(extensionTag)
-      # extensionVersion: '$(ExtensionVersion)'
       updateTasksVersion: true
-      extensionVisibility: ${{parameters.extensionVisibility}}
       extensionPricing: 'free'
       outputVariable: ExtensionOutputPath
 
