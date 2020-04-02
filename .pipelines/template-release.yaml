@@ -1,3 +1,16 @@
+###################################################
+#
+# Azure Pipelines YAML template
+# - Query Current published extension version
+# - Publish an Azure Devops extension
+# - Waits for extension Validation to complete
+# - Creates Github Release (PROD)
+###################################################
+# Requires the following variables:
+# Build.Repository.Name
+###################################################
+
+
 parameters:
   publisherId: # Published Id @ https://marketplace.visualstudio.com/manage
   projName: # Required: Extension Id
@@ -57,3 +70,17 @@ steps:
       extensionTag: ${{parameters.extensionTag}}
       extensionVersion: $(ExtensionVersion)
 
+  - task: GitHubRelease@1
+    condition: and(succeeded(), eq(variables['System.StageDisplayName'], 'PROD'))
+    displayName: 'Create Github Release'
+    inputs:
+      gitHubConnection: gh-joalmeid
+      repositoryName: '$(Build.Repository.Name)'
+      action: 'create'
+      target: '$(Build.SourceVersion)'
+      tagSource: 'gitTag'
+      tagPattern: 'release-v1.*'
+      title: 'ReleaseTitle'
+      assets: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
+      changeLogCompareToRelease: 'lastFullRelease'
+      changeLogType: 'commitBased'	  
