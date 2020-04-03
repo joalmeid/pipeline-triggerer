@@ -13,11 +13,11 @@ The Pipeline Triggerer Extension include the following contributions:
 
 1. Pipeline Triggerer Task
 
-![Extension ADO Pipeline Triggerer Task](/static/images/ext-pipeline-trigger-task-ui-classical.png)
+![Extension ADO Pipeline Triggerer Task](/static/images/pipeline-triggerer-task-ui-classical.png)
 
 2. Azure Devops Service Connection
 
-![Extension ADO Service EndPoint](/static/images/ext-service-endpoint.png)
+![Extension ADO Service EndPoint](/static/images/pipeline-triggerer-service-endpoint.png)
 
 Don't know how to get started? Well it's easy as:
   1. Create your Service Endpoint
@@ -39,6 +39,8 @@ The name of this service connection is what you will use in the `Pipeline Trigge
 To make the Pipeline Triggerer Task available, you must:
 - Configure a service end-point in Azure DevOps for accessing the ADO Rest Api;
 - Use the Pipeline Triggerer Task in your build/release definitions.
+
+![Extension ADO Pipeline Triggerer Task in Yaml](/static/images/pipeline-triggerer-task-yaml.png)
 
 ### Pipeline Triggerer Task ###
 

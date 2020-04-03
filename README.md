@@ -1,11 +1,12 @@
-[![Build Status](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_apis/build/status/pipeline-triggerer-extension-CICD?branchName=master&stageName=PROD)](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_build/latest?definitionId=180&branchName=master) [![Build Status](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_apis/build/status/pipeline-triggerer-extension-CICD?branchName=master&stageName=DEV)](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_build/latest?definitionId=180&branchName=master)
+[![Build Status](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_apis/build/status/pipeline-triggerer-extension-CICD?branchName=master)](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_build/latest?definitionId=180&branchName=master)
 
+![Logo](assets/azdo-pipeline-trigger-logo-150.png)
 ## Pipeline Triggerer Extension for Azure Pipelines ##
 
 This extension allows you to trigger any existing build or release definition. No matter if its implemented with the Classic Editor or YAML pipelines.
 This is usefull when you need to orchestrate one or several pipelines from your authored pipeline.
 
-![Extension ADO Pipeline Trigger Task](/static/images/ext-pipeline-trigger-task-ui.png)
+![Extension ADO Pipeline Trigger Task](assets/pipeline-triggerer-task-ui-classical-add.png)
 
 ### Highlights ###
 > This extension is ***cross platform***. You can run it from **Windows**, **Linux** or **macOS** self-hosted agents.
@@ -15,11 +16,11 @@ The Pipeline Triggerer Extension include the following contributions:
 
 1. Pipeline Triggerer Task
 
-![Extension ADO Pipeline Triggerer Task](/static/images/ext-pipeline-trigger-task-ui-classical.png)
+![Extension ADO Pipeline Triggerer Task](assets/pipeline-triggerer-task-ui-classical.png)
 
 2. Azure Devops Service Connection
 
-![Extension ADO Service EndPoint](/static/images/ext-service-endpoint.png)
+![Extension ADO Service EndPoint](assets/pipeline-triggerer-service-endpoint.png)
 
 Don't know how to get started? Well it's easy as:
   1. Create your Service Endpoint

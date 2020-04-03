@@ -41,12 +41,18 @@
     ],
     "screenshots": [
         {
-            "path": "static/images/pipeline-triggerer-task-ui.png"
+          "path": "static/images/marketplace-pipeline-triggerer-service-endpoint.png"
         },
         {
-            "path": "static/images/pipeline-triggerer-service-endpoint.png"
+          "path": "static/images/marketplace-pipeline-triggerer-task-ui-classical.png"
+        },
+        {
+          "path": "static/images/marketplace-pipeline-triggerer-task-ui-classical-add.png"
+        },
+        {
+          "path": "static/images/marketplace-pipeline-triggerer-task-yaml.png"
         }
-    ],
+      ],
     "content": {
         "license": {
             "path": "license.md"
@@ -57,10 +63,10 @@
     },
     "links": {
         "getstarted": {
-            "uri": "https://github.com/joalmeid/pipeline-triggerer/wiki/Getting-Started"
+            "uri": "https://github.com/joalmeid/pipeline-triggerer"
         },
         "support": {
-            "uri": "https://github.com/joalmeid/pipeline-triggerer/wiki"
+            "uri": "https://github.com/joalmeid/pipeline-triggerer/issues"
         },
         "issues": {
             "uri": "https://github.com/joalmeid/pipeline-triggerer/issues"
@@ -69,9 +75,20 @@
             "uri": "https://github.com/joalmeid/pipeline-triggerer"
         },
         "learn": {
-            "uri": "https://github.com/joalmeid/pipeline-triggerer/wiki"
+            "uri": "https://github.com/joalmeid/pipeline-triggerer/blob/master/src/overview.md"
         }
     },
+    "repository": {
+      "type": "git",
+      "uri": "https://github.com/joalmeid/pipeline-triggerer"
+    },
+    "badges": [
+      {
+          "href": "https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_build/latest?definitionId=180&branchName=master",
+          "uri": "https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_apis/build/status/pipeline-triggerer-extension-CICD?branchName=master",
+          "description": "Azure Pipelines CICD multi-stage pipeline for the project"
+      }
+    ],
     "contributions": [
         {
             "id": "pipeline-trigger-task",

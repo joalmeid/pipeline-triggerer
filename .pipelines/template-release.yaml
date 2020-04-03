@@ -78,9 +78,11 @@ steps:
       repositoryName: '$(Build.Repository.Name)'
       action: 'create'
       target: '$(Build.SourceVersion)'
-      tagSource: 'gitTag'
-      tagPattern: 'v1.*'
+      tagSource: userSpecifiedTag
+      tag: '$(ExtensionVersion)'
       title: 'Release-$(ExtensionVersion)'
       assets: '$(Pipeline.Workspace)/${{parameters.artifactName}}/${{parameters.publisherId}}.${{parameters.projName}}-*.vsix'
       changeLogCompareToRelease: 'lastFullRelease'
       changeLogType: 'commitBased'	  
+
+
