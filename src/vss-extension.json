@@ -40,18 +40,15 @@
         "Azure Pipelines"
     ],
     "screenshots": [
-        {
-          "path": "static/images/marketplace-pipeline-triggerer-service-endpoint.png"
-        },
-        {
-          "path": "static/images/marketplace-pipeline-triggerer-task-ui-classical.png"
-        },
-        {
-          "path": "static/images/marketplace-pipeline-triggerer-task-ui-classical-add.png"
-        },
-        {
-          "path": "static/images/marketplace-pipeline-triggerer-task-yaml.png"
-        }
+      {
+        "path": "static/images/marketplace-pipeline-triggerer-task-yaml.png"
+      },
+      {
+      "path": "static/images/marketplace-pipeline-triggerer-service-endpoint.png"
+      },
+      {
+        "path": "static/images/marketplace-pipeline-triggerer-task-ui-classical-add.png"
+      }
       ],
     "content": {
         "license": {
