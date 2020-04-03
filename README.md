@@ -6,7 +6,7 @@
 This extension allows you to trigger any existing build or release definition. No matter if its implemented with the Classic Editor or YAML pipelines.
 This is usefull when you need to orchestrate one or several pipelines from your authored pipeline.
 
-![Extension ADO Pipeline Triggerer Task in Yaml](https://user-images.githubusercontent.com/4800035/78352154-d3177080-759f-11ea-82ac-f70065b90022.png)
+![Extension ADO Pipeline Triggerer Task in Yaml](https://user-images.githubusercontent.com/4800035/78353255-ab290c80-75a1-11ea-9472-e6161ea278c3.png)
 
 ### Highlights ###
 > This extension is ***cross platform***. You can run it from **Windows**, **Linux** or **macOS** self-hosted agents.
