@@ -3,7 +3,7 @@
 This extension allows you to trigger any existing build or release definition. No matter if its implemented with the Classic Editor or YAML pipelines.
 This is usefull when you need to orchestrate one or several pipelines from your authored pipeline.
 
-![Extension ADO Pipeline Trigger Task](/static/images/ext-pipeline-trigger-task-ui.png)
+![Extension ADO Pipeline Triggerer Task in Yaml](https://user-images.githubusercontent.com/4800035/78352154-d3177080-759f-11ea-82ac-f70065b90022.png)
 
 ### Highlights ###
 > This extension is ***cross platform***. You can run it from **Windows**, **Linux** or **macOS** self-hosted agents.
@@ -13,17 +13,19 @@ The Pipeline Triggerer Extension include the following contributions:
 
 1. Pipeline Triggerer Task
 
-![Extension ADO Pipeline Triggerer Task](/static/images/pipeline-triggerer-task-ui-classical.png)
+![Extension ADO Pipeline Triggerer Task](https://user-images.githubusercontent.com/4800035/78352157-d3b00700-759f-11ea-86c8-5b8884362141.png)
 
 2. Azure Devops Service Connection
 
-![Extension ADO Service EndPoint](/static/images/pipeline-triggerer-service-endpoint.png)
+![Extension ADO Service EndPoint](https://user-images.githubusercontent.com/4800035/78352156-d3177080-759f-11ea-83d9-5df548b4487d.png)
 
 Don't know how to get started? Well it's easy as:
   1. Create your Service Endpoint
   2. Add the `Pipeline Triggerer Task` to any of your build or release pipelines
   3. Configure the `Pipeline Triggerer Task`
   4. Run your pipeline!
+
+![Adding Extension ADO Pipeline Trigger Task](https://user-images.githubusercontent.com/4800035/78352152-d27eda00-759f-11ea-9238-d897ff7d81ac.png)
 
 ### Prerequisites ###
 - You must have an active Azure subscription. Create a new subscription at https://azure.com.
@@ -39,8 +41,6 @@ The name of this service connection is what you will use in the `Pipeline Trigge
 To make the Pipeline Triggerer Task available, you must:
 - Configure a service end-point in Azure DevOps for accessing the ADO Rest Api;
 - Use the Pipeline Triggerer Task in your build/release definitions.
-
-![Extension ADO Pipeline Triggerer Task in Yaml](/static/images/pipeline-triggerer-task-yaml.png)
 
 ### Pipeline Triggerer Task ###
 

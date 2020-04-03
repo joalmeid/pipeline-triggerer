@@ -1,12 +1,12 @@
 [![Build Status](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_apis/build/status/pipeline-triggerer-extension-CICD?branchName=master)](https://joalmeid.visualstudio.com/azdo-pipeline-triggerer/_build/latest?definitionId=180&branchName=master)
 
-![Logo](assets/azdo-pipeline-trigger-logo-150.png)
+![Logo](https://user-images.githubusercontent.com/4800035/78352164-d4489d80-759f-11ea-93d5-af99ca9c4737.png)
 ## Pipeline Triggerer Extension for Azure Pipelines ##
 
 This extension allows you to trigger any existing build or release definition. No matter if its implemented with the Classic Editor or YAML pipelines.
 This is usefull when you need to orchestrate one or several pipelines from your authored pipeline.
 
-![Extension ADO Pipeline Trigger Task](assets/pipeline-triggerer-task-ui-classical-add.png)
+![Extension ADO Pipeline Triggerer Task in Yaml](https://user-images.githubusercontent.com/4800035/78352154-d3177080-759f-11ea-82ac-f70065b90022.png)
 
 ### Highlights ###
 > This extension is ***cross platform***. You can run it from **Windows**, **Linux** or **macOS** self-hosted agents.
@@ -16,17 +16,19 @@ The Pipeline Triggerer Extension include the following contributions:
 
 1. Pipeline Triggerer Task
 
-![Extension ADO Pipeline Triggerer Task](assets/pipeline-triggerer-task-ui-classical.png)
+![Extension ADO Pipeline Triggerer Task](https://user-images.githubusercontent.com/4800035/78352157-d3b00700-759f-11ea-86c8-5b8884362141.png)
 
 2. Azure Devops Service Connection
 
-![Extension ADO Service EndPoint](assets/pipeline-triggerer-service-endpoint.png)
+![Extension ADO Service EndPoint](https://user-images.githubusercontent.com/4800035/78352156-d3177080-759f-11ea-83d9-5df548b4487d.png)
 
 Don't know how to get started? Well it's easy as:
   1. Create your Service Endpoint
   2. Add the `Pipeline Triggerer Task` to any of your build or release pipelines
   3. Configure the `Pipeline Triggerer Task`
   4. Run your pipeline!
+
+![Adding Extension ADO Pipeline Trigger Task](https://user-images.githubusercontent.com/4800035/78352152-d27eda00-759f-11ea-9238-d897ff7d81ac.png)
 
 ## Release status
 
