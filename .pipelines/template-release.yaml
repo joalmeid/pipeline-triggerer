@@ -38,6 +38,7 @@ steps:
       connectedServiceName: ${{parameters.marketplaceServiceConnection}}
       publisherId: ${{parameters.publisherId}}
       extensionId: ${{parameters.projName}}
+      extensionTag: ${{parameters.extensionTag}}
       versionAction: 'Patch'
       outputVariable: 'ExtensionVersion'
       setBuildNumber: 'true'
