@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/joalmeid/pipeline-triggerer",
   "devDependencies": {
-    "tfx-cli": "^0.6.4",
+    "tfx-cli": "^0.12.0",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.10.4",
     "@types/q": "^1.5.1"
